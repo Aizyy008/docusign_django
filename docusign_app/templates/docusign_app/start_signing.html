@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Start Signing</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 50px 40px;
+      border-radius: 20px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      animation: fadeInScale 0.8s ease forwards;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.85);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    h2 {
+      font-size: 30px;
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    p {
+      color: #555;
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .sign-button {
+      background: linear-gradient(to right, #4CAF50, #2e7d32);
+      color: white;
+      padding: 15px 35px;
+      font-size: 18px;
+      font-weight: 500;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+    }
+
+    .sign-button:hover {
+      background: linear-gradient(to right, #66bb6a, #388e3c);
+      box-shadow: 0 12px 24px rgba(76, 175, 80, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Animated floating background blobs */
+    .background-bubble {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: rgba(76, 175, 80, 0.1);
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: 0;
+      animation: float 12s infinite alternate ease-in-out;
+    }
+
+    .bubble1 {
+      top: -100px;
+      left: -100px;
+    }
+
+    .bubble2 {
+      bottom: -120px;
+      right: -120px;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px) translateX(0px);
+      }
+      100% {
+        transform: translateY(40px) translateX(40px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-bubble bubble1"></div>
+  <div class="background-bubble bubble2"></div>
+
+  <div class="container">
+    <h2>Start Document Signing</h2>
+    <p>Click the button below to begin the secure signing process.</p>
+    <button class="sign-button" onclick="startSigning()">Start Signing</button>
+  </div>
+
+  <script>
+    function startSigning() {
+      fetch('/api/docusign/start-signing/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken')
+        },
+        credentials: 'same-origin'
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.signing_url) {
+          window.location.href = data.signing_url;
+        } else {
+          alert('Failed to get signing URL.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    }
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+</body>
+</html>

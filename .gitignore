@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+venv/
+env/
+ENV/
+.myenv/
+.myvenv/
+myenv/
+*.env
+*.venv
+
+# VS Code
+.vscode/
+
+# Django
+*.sqlite3
+db.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.migrations/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.*
+
+# Pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Coverage
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Build
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Node (if any frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+*.bak
+*.swp
+*.swo
+.idea/
